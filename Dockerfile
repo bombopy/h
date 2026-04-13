@@ -1,6 +1,6 @@
 FROM python:3.11-slim
 
-# Instalar dependencias del sistema
+# Instalar dependencias del sistema para Chromium y Playwright
 RUN apt-get update && apt-get install -y \
     wget \
     gnupg \
@@ -22,16 +22,19 @@ RUN apt-get update && apt-get install -y \
     xdg-utils \
     libxml2 \
     libxslt1.1 \
+    fonts-unifont \
+    --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
 
 COPY requirements.txt .
+RUN pip install --upgrade pip
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Instalar Chromium para Playwright
+# Instalar Playwright y Chromium
+RUN pip install playwright
 RUN playwright install chromium
-RUN playwright install-deps chromium
 
 COPY server.py .
 
