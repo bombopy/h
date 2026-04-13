@@ -1,6 +1,5 @@
 FROM python:3.11-slim
 
-# Instalar dependencias del sistema para Chromium y Playwright
 RUN apt-get update && apt-get install -y \
     wget \
     gnupg \
@@ -29,13 +28,9 @@ RUN apt-get update && apt-get install -y \
 WORKDIR /app
 
 COPY requirements.txt .
-RUN pip install --upgrade pip
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Instalar Playwright y Chromium
-RUN pip install playwright
-RUN playwright install chromium
-
+COPY hshop_scraper.py .
 COPY server.py .
 
 EXPOSE 10000
