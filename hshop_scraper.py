@@ -680,6 +680,17 @@ class hShopScraper:
                         return solved
                 print("⚠️  No se encontró enlace de descarga directo (modo fallback sin scrapling)")
                 print("    Sugerencia: resuelve captcha en navegador y usa token/URL para resolver enlace")
+                # Guardar HTML para diagnóstico
+                try:
+                    import datetime, os
+                    html = str(page._node) if page else ''
+                    now = datetime.datetime.now().strftime('%Y%m%d_%H%M%S')
+                    fname = f"/tmp/render_debug_{game_id}_{now}.html"
+                    with open(fname, 'w', encoding='utf-8') as f:
+                        f.write(html)
+                    print(f"[DEBUG][get_download_link] Guardado HTML de error en: {fname}")
+                except Exception as e:
+                    print(f"[DEBUG][get_download_link] No se pudo guardar HTML: {e}")
                 return None
 
             page_state = {"token": "", "widget_url": ""}
@@ -733,6 +744,17 @@ class hShopScraper:
 
             print("⚠️  No se encontró enlace de descarga directo")
             print("    El captcha/token puede requerir resolución manual")
+            # Guardar HTML para diagnóstico
+            try:
+                import datetime, os
+                html = str(page._node) if page else ''
+                now = datetime.datetime.now().strftime('%Y%m%d_%H%M%S')
+                fname = f"/tmp/render_debug_{game_id}_{now}.html"
+                with open(fname, 'w', encoding='utf-8') as f:
+                    f.write(html)
+                print(f"[DEBUG][get_download_link] Guardado HTML de error en: {fname}")
+            except Exception as e:
+                print(f"[DEBUG][get_download_link] No se pudo guardar HTML: {e}")
             return None
             
         except Exception as e:
