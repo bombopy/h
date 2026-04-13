@@ -138,9 +138,38 @@ class hShopScraper:
         """
         self.download_dir = Path(download_dir)
         self.download_dir.mkdir(exist_ok=True)
-        self.use_stealth = bool(prefer_stealth and StealthyFetcher is not None)
+        # --- LOGS DETALLADOS DE SCRAPLING ---
+        self.use_stealth = False
         self.two_captcha_api_key = (two_captcha_api_key or "").strip()
         print(f"📁 Directorio de descargas: {self.download_dir.absolute()}")
+        try:
+            if prefer_stealth:
+                if StealthyFetcher is not None:
+                    # Probar si Chromium está disponible
+                    import subprocess
+                    try:
+                        result = subprocess.run(["which", "chromium-browser"], capture_output=True, text=True)
+                        if result.returncode == 0:
+                            print(f"✅ Chromium encontrado en: {result.stdout.strip()}")
+                        else:
+                            print("⚠️  Chromium no encontrado en PATH (chromium-browser)")
+                        # Probar playwright
+                        import playwright
+                        print(f"✅ Playwright importado: {playwright.__version__}")
+                        self.use_stealth = True
+                        print("✅ Modo scrapling activo")
+                    except Exception as e:
+                        print(f"❌ Error al probar Chromium/Playwright: {e}")
+                        self.use_stealth = False
+                else:
+                    print("⚠️  StealthyFetcher no disponible (scrapling no instalado o error de importación)")
+                    self.use_stealth = False
+            else:
+                print("⚠️  prefer_stealth=False, forzando modo fallback")
+                self.use_stealth = False
+        except Exception as e:
+            print(f"❌ Error al inicializar modo scrapling: {e}")
+            self.use_stealth = False
         if not self.use_stealth:
             print("⚠️  Modo sin scrapling (fallback)")
         else:
