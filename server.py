@@ -127,7 +127,8 @@ class hShopScraper:
             game_id = href.split('/')[-1]
             
             # Extraer título
-            title = self._clean_text(link.select_one('h3')?.get_text() if link.select_one('h3') else '')
+            h3_elem = link.select_one('h3')
+            title = self._clean_text(h3_elem.get_text() if h3_elem else '')
             if not title:
                 title = self._clean_text(link.get('title', ''))
             if not title:
