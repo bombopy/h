@@ -22,6 +22,12 @@ RUN apt-get update && apt-get install -y \
     libxml2 \
     libxslt1.1 \
     fonts-unifont \
+    libglib2.0-0 \
+    libexpat1 \
+    libu2f-udev \
+    libvulkan1 \
+    libgtk-3-0 \
+    libdrm2 \
     --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 
