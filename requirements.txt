@@ -2,5 +2,6 @@ Flask
 requests
 tqdm
 beautifulsoup4
-scrapling  # solo si usas StealthyFetcher, si no, la puedes quitar
+scrapling 
+playwright # solo si usas StealthyFetcher, si no, la puedes quitar
 gunicorn

@@ -30,6 +30,9 @@ WORKDIR /app
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
+# Instala navegadores para Playwright (REQUERIDO para scrapling/StealthyFetcher)
+RUN playwright install chromium
+
 COPY hshop_scraper.py .
 COPY server.py .
 
